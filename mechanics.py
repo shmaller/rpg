@@ -475,7 +475,7 @@ def determine_response(conversant1,conversant2):
 		return 'neutral'
 	elif response >= 25:
 		return 'bad'
-
+	
 #################################################################
 
 if __name__ == '__main__':
