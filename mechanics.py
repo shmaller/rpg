@@ -488,21 +488,23 @@ def get_in_game_text(infile, header):
 	try:
 		with open(infile) as f:
 			outstr = ''
-			inside_header = False
 			for line in f:
 				if line.strip() == header:
-					inside_header = True
-					while inside_header:
+					while True:
 						relevant_text = f.readline().strip()
-						if '# ' in relevant_text:
+						if '# ' in relevant_text: # next header
 							break
-						outstr += relevant_text
+						elif not relevant_text: # eof 
+							break
+						else:
+							outstr += relevant_text
 					return outstr
 
-		return f"ERROR: File '{infile}' found, but header '{header}' not found."
+		input(f"ERROR LOADING IN-GAME TEXT: File '{infile}' found, but header '{header}' not found.")
+		return ''
 
 	except FileNotFoundError:
-		input(f"ERROR: In-game text file not found: '{infile}'")
+		input(f"ERROR LOADING IN-GAME TEXT: In-game text file not found: '{infile}'")
 		return ''
 
 #################################################################
@@ -515,6 +517,7 @@ if __name__ == '__main__':
 	print(f'outstr: \'{oustr}\'')
 	oustr = get_in_game_text('ingame.txt','## ruby')
 	print(f'outstr: \'{oustr}\'')
+	oustr = get_in_game_text('location_hierarchy_ideas.txt','## KALM')
 	'''
 
 	from creature import *
