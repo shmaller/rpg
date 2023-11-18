@@ -23,7 +23,7 @@ class Person(Creature):
 	def __init__(
 		self,
 		name='',
-		faction='',
+		faction=None,
 		allegiance=0
 		):
 
@@ -91,7 +91,36 @@ class Person(Creature):
 
 #################################################################
 
+	def get_factional_opinion(self, other):
+		'''
+		Accepts Person object as input.
+
+		Checks Other's factional association,
+		compares it to self's factional assocation.
+
+		Returns float between -1 and 1.
+		'''
+
+		return(self.faction.opinion(other))
+
+#################################################################
+
 if __name__ == '__main__':
+
+	from faction import *
+
+	Romans = Faction('Romans')
+	Huns = Faction('Huns')
+
+	Romans.opinions = {Huns: -1}
+	Huns.opinions = {Romans: -0.9}
+
+	roman = Person('dookie',Romans,0.3)
+	hun = Person('smirkle',Huns,0.9)
+
+	print(f"Roman's opinion of Hun: {roman.get_factional_opinion(hun)}")
+
+	'''
 
 	from mechanics import load_file
 	from item import Item
@@ -159,3 +188,5 @@ if __name__ == '__main__':
 
 	# if input('Wilt thou chat with %s? '%e.name) == 'y':
 	# 	e.chat(hero)
+
+	'''
