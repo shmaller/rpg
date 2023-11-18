@@ -22,15 +22,16 @@ class Person(Creature):
 
 	def __init__(
 		self,
-		# hero=Creature(), // why is this a Creature? Hero should be a Person
-		# hero,				// Removing Hero as input. Hero stats should be taken into account for child classes (e.g. Archer) but not generic Persons.
 		name='',
-		# input_player=False
-		# inventory=[]
+		faction='',
+		allegiance=0
 		):
 
-		Creature.__init__(self,name=name)
-		# self.inventory=inventory
+		Creature.__init__(self,
+					name = name)
+		
+		self.faction = faction
+		self.allegiance = allegiance
 
 #################################################################
 
