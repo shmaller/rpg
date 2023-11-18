@@ -22,15 +22,16 @@ class Person(Creature):
 
 	def __init__(
 		self,
-		# hero=Creature(), // why is this a Creature? Hero should be a Person
-		# hero,				// Removing Hero as input. Hero stats should be taken into account for child classes (e.g. Archer) but not generic Persons.
 		name='',
-		# input_player=False
-		# inventory=[]
+		faction=None,
+		allegiance=0
 		):
 
-		Creature.__init__(self,name=name)
-		# self.inventory=inventory
+		Creature.__init__(self,
+					name = name)
+		
+		self.faction = faction
+		self.allegiance = allegiance
 
 #################################################################
 
@@ -90,7 +91,36 @@ class Person(Creature):
 
 #################################################################
 
+	def get_factional_opinion(self, other):
+		'''
+		Accepts Person object as input.
+
+		Checks Other's factional association,
+		compares it to self's factional assocation.
+
+		Returns float between -1 and 1.
+		'''
+
+		return(self.faction.opinion(other))
+
+#################################################################
+
 if __name__ == '__main__':
+
+	from faction import *
+
+	Romans = Faction('Romans')
+	Huns = Faction('Huns')
+
+	Romans.opinions = {Huns: -1}
+	Huns.opinions = {Romans: -0.9}
+
+	roman = Person('dookie',Romans,0.3)
+	hun = Person('smirkle',Huns,0.9)
+
+	print(f"Roman's opinion of Hun: {roman.get_factional_opinion(hun)}")
+
+	'''
 
 	from mechanics import load_file
 	from item import Item
@@ -158,3 +188,5 @@ if __name__ == '__main__':
 
 	# if input('Wilt thou chat with %s? '%e.name) == 'y':
 	# 	e.chat(hero)
+
+	'''
