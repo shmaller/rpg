@@ -7,7 +7,8 @@ class Faction:
 
     It is defined with a name and a dictionary
     of members and their titles within the
-    faction.
+    faction, and a dictionary of other factions
+    and this faction's opinions on them.
 
     The primary function of a faction is to
     define the relationship between different
