@@ -57,14 +57,18 @@ class Person(Creature):
 
 #################################################################
 
-	def generate_stats(self,hero):
+	def generate_stats(self):
+		'''
+		Sets stats at a random number 
+		somewhere around current level.
+		'''
 
 		names = ['Mattias','Franny','Leopold','Catche','Slan','Reog',
 'Frack','Lance','Samantha','Lili','Martha','Zuzu','Borb','Horatio',
 'Rosecratz','Guildenstern','Chunk','Blork','Effel','Yorick', 'Puck',
 'Osgood','Rank','Lelel','Bilbo','Kattiwampus']
 
-		self.LEVEL = randint(hero.LEVEL-10,hero.LEVEL+10)
+		self.LEVEL = randint(1,100)
 
 		if self.LEVEL <= 0:
 			self.LEVEL = 1
