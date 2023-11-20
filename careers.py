@@ -10,11 +10,11 @@ from person import *
 class Peasant(Person):
 	'''Peasants are the lowest, most boring, most generic class of Person.'''
 
-	def __init__(self,hero,name=''):
+	def __init__(self,name=''):
 
-		Person.__init__(self,name)
+		super().__init__(name=name)
 
-		self.generate_stats(hero)
+		self.generate_stats()
 
 		self.name += ' the Peasant'
 
@@ -25,11 +25,11 @@ class Peasant(Person):
 class Archer(Person):
 	'''Archers are fast, lucky, sneaky, and intelligent. They have low DEF.'''
 
-	def __init__(self,hero,name=''):
+	def __init__(self,name=''):
 
-		Person.__init__(self,name)
+		super().__init__(name=name)
 
-		self.generate_stats(hero)
+		self.generate_stats()
 
 		self.ATK = self.LEVEL + randint(5,15)
 		self.DEF = self.LEVEL + randint(-15,-10)
@@ -48,14 +48,14 @@ class Archer(Person):
 		'''Woo an archer, and he or she will teach you
 		how to hide.'''
 
-		response = determine_response(self,other)
+		response = self.determine_response(other)
 
-		if response == 'bad':
-			print('\n%s: I\'ll shoot out thine eye! %s holds up two fingers in defiance!'%self.name)
+		if response <= -30:
+			print(f'\n{self.name}: I\'ll shoot out thine eye! {self.name} holds up two fingers in defiance!')
 			battle(other,self)
-		elif response == 'neutral':
+		elif abs(response) < 30:
 			print("\n%s: Stay'st thou from my line of sight.\n"%self.name)
-		elif response == 'good':
+		elif response >= 30:
 			print("\n%s: Thou canst climb my tree.\n"%self.name)
 
 			action = self.test_convo(other,"Wouldst thou woo %s? (y/n) "%self.name)
@@ -74,11 +74,11 @@ class Archer(Person):
 class Wizard(Person):
 	'''Wizards are weak and slow, but lucky, charming, and intelligent.'''
 
-	def __init__(self,hero,name=''):
+	def __init__(self,name=''):
 
-		Person.__init__(self,name)
+		super().__init__(name=name)
 
-		self.generate_stats(hero)
+		self.generate_stats()
 
 		self.DEF = self.LEVEL + randint(-25,-10)
 		self.SPD = self.LEVEL + randint(-25,-10)
@@ -92,14 +92,14 @@ class Wizard(Person):
 	def chat(self,other):
 		'''Woo a wizard and learn a spell!'''
 
-		response = determine_response(self,other)
+		response = self.determine_response(other)
 
-		if response == 'bad':
+		if response <= -30:
 			input("\n%s: A hex upon thee!"%self.name)
 			battle(other,self)
-		elif response == 'neutral':
+		elif abs(response) < 30:
 			input("\n%s: I have much studying to do.\n"%self.name)
-		elif response == 'good':
+		elif response >= 30:
 			print("\n%s: I shall teach thee a spell!\n"%self.name)			
 
 			action = self.test_convo(other,"Wouldst thou learn an incantation from %s? (y/n) "%self.name)
@@ -117,13 +117,13 @@ class Wizard(Person):
 class Elder(Person):
 	'''Elders are very high level, but very weak and slow.'''
 
-	def __init__(self,hero,name=''):
+	def __init__(self,name=''):
 
-		Person.__init__(self,name)
+		super().__init__(name=name)
 
-		self.generate_stats(hero)
+		self.generate_stats()
 
-		self.LEVEL = hero.LEVEL + randint(60,80)
+		self.LEVEL = randint(60,100)
 		self.ATK = self.LEVEL + randint(-50,-20)
 		self.DEF = self.LEVEL + randint(-50,-20)
 		self.SPD = self.LEVEL + randint(-65,-35)
@@ -133,13 +133,13 @@ class Elder(Person):
 
 	def chat(self,other):
 		'''Woo an Elder, and enter a restorative sleep.'''
-		response = determine_response(self,other)
+		response = self.determine_response(other)
 
-		if response == 'bad':
+		if response <= -30:
 			input('\n%s: Cur of youth!\n%s spits on thee.\n'%(self.name,self.name))
-		elif response == 'neutral':
+		elif abs(response) < 30:
 			input('\n%s looks upon thee with a rheumy eye.\n'%self.name)
-		elif response == 'good':
+		elif response >= 30:
 			input("\n%s: Thou remind'st me of mine great grandson!"%self.name)
 			input("%s: In mine youth I lived the rambling life that thou doth embody."%self.name)
 			input('%s: When the Phoenician horde arrived on the doorstep of mine homestead . . . '%self.name)
@@ -155,13 +155,13 @@ class Warrior(Person):
 	'''Warriors are high level, powerful, and defensive,
 	but slow and clumsy.'''
 
-	def __init__(self,hero,name=''):
+	def __init__(self,name=''):
 
-		Person.__init__(self,name)
+		super().__init__(name=name)
 
-		self.generate_stats(hero)
+		self.generate_stats()
 
-		self.LEVEL = hero.LEVEL + randint(10,30)
+		self.LEVEL = randint(30,70)
 		self.ATK = self.LEVEL + randint(20,50)
 		self.DEF = self.LEVEL + randint(15,40)
 		self.SPD = self.LEVEL + randint(-15,5)
@@ -173,14 +173,14 @@ class Warrior(Person):
 	def chat(self,other):
 		'''Woo a Warrior, and learn of battlefield exploits.'''
 
-		response = determine_response(self,other)
+		response = self.determine_response(other)
 
-		if response == 'bad':
+		if response <= -30:
 			input('\n%s: Foreigner and traitor!'%self.name)
 			battle(other,self)
-		elif response == 'neutral':
+		elif abs(response) < 30:
 			input('\n%s brushes past thee rapidly.'%self.name)
-		elif response == 'good':
+		elif response >= 30:
 			action = self.test_convo(other,'\n%s: Friend and comrade! Wouldst thou hear of my latest campaign? (y/n) '%self.name)
 
 			if action == 'y':
@@ -196,13 +196,13 @@ class Warrior(Person):
 class Monk(Person):
 	'''Monks are strong and intelligent.'''
 
-	def __init__(self,hero,name=''):
+	def __init__(self,name=''):
 		
-		Person.__init__(self,name)
+		super().__init__(name=name)
 
-		self.generate_stats(hero)
+		self.generate_stats()
 
-		self.LEVEL = hero.LEVEL + randint(10,15)
+		self.LEVEL = randint(50,90)
 		self.ATK = self.LEVEL + randint(5,15)
 		self.INT = self.LEVEL + randint(10,30)
 		self.name += ' the Monk'
@@ -212,15 +212,15 @@ class Monk(Person):
 	def chat(self,other):
 		'''Woo a Monk, and learn the secrets of the mind.'''
 
-		response = determine_response(self,other)
+		response = self.determine_response(other)
 
-		if response == 'bad':
+		if response <= -30:
 			print('\n%s: Thou indulgest in carnalities of mind and body. Begone with thee.'%self.name)
 			input('\n%s lost 1 INT!'%other.name)
 			other.INT -= 1			
-		elif response == 'neutral':
+		elif abs(response) < 30:
 			input('\n%s meditates in silence and does not greet thee.'%self.name)
-		elif response == 'good':
+		elif response >= 30:
 			
 			action = self.test_convo(other,'\n%s, seated in full lotus, beckons thee to an adjacent mat. Wilt thou join? (y/n) '%self.name)
 
@@ -240,31 +240,31 @@ if __name__ == '__main__':
 	hero = load_file()
 	hero.CHM = 100
 
-	x = Person('doofus')
+	x = Person(name='doofus')
 	print('\n %s'%x.name)
 	print(x.gen_stats_string())
 
-	y = Peasant(hero,'roofdus')
+	y = Peasant(name='roofdus')
 	print('\n %s'%y.name)
 	print(y.gen_stats_string())
 
-	a = Archer(hero,'Borkus')
+	a = Archer(name='Borkus')
 	print('\n %s'%a.name)
 	print(a.gen_stats_string())
 
-	wiz = Wizard(hero)
+	wiz = Wizard()
 	print('\n %s'%wiz.name)
 	print(wiz.gen_stats_string())
 
-	e = Elder(hero)
+	e = Elder()
 	print('\n %s'%e.name)
 	print(e.gen_stats_string())
 
-	war = Warrior(hero)
+	war = Warrior()
 	print('\n %s'%war.name)
 	print(war.gen_stats_string())
 
-	m = Monk(hero)
+	m = Monk()
 	print('\n %s'%m.name)
 	print(m.gen_stats_string())
 
