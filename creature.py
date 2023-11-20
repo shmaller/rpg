@@ -391,9 +391,6 @@ response, but other is not a Creature.')
 #################################################################
 	
 	def woo(self,other):
-
-		from mechanics import determine_response
-
 		'''
 		Accepts a target Creature object as an input.
 
@@ -405,12 +402,12 @@ response, but other is not a Creature.')
 		
 		print('\n%s: I woo thee, %s!\n'%(self.name,other.name))
 
-		response = determine_response(other,self)
+		response = self.determine_response(other)
 		luck_factor = randint(0, int(self.LCK))
 
-		if response == 'good':
+		if response >= 30:
 			response_factor = 70
-		elif response == 'neutral':
+		elif abs(response) < 25:
 			response_factor = 25
 		else:
 			response_factor = 0
