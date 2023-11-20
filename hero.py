@@ -11,7 +11,7 @@ class Hero(Person):
 
 	def __init__(self,name=''):
 
-		Person.__init__(self,name)
+		super().__init__(name=name)
 		self.player = True
 
 #################################################################
