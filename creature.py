@@ -6,7 +6,6 @@ This file defines Creatures in the game. It is the
 base class for all living things in the game.
 '''
 from random import randint, choice, choices
-# from mechanics import determine_response
 
 #################################################################
 #################################################################
@@ -375,44 +374,20 @@ class Creature:
 
 #################################################################
 
-	# def determine_response(self,other):
-	# 	'''
-	# 	Accepts a target Creature object as input.
+	def determine_response(self,other):
+		'''
+		Accepts a target Creature object as input.
 
-	# 	Calculates difference between self and other's
-	# 	CHM stats.
-
-	# 	If self's stat is much higher, other
-	# 	is totally bowled over.
-
-	# 	If stats are similar, other's response is neutral.
-
-	# 	If self's stat is much lower, other is repulsed.
-
-	# 	Returns 'good' if case 1, 'neutral' if case 2,
-	# 	or 'bad' if case 3.
-	# 	'''
-	# 	response = self.CHM - other.CHM
-
-	# 	print('\n\n\nwe are in determine_response\n\n\n')
-	# 	print('my chm %d - your charm %d = %d response'%(self.CHM,other.CHM,response))
-
-	# 	if abs(response) < 25:
-	# 		return 'neutral'
-	# 	else:
-	# 		if response < 0:
-	# 			return 'good'
-	# 		else:
-	# 			return 'bad'
-
-
-		# if response <= -25: # my CHM is much lower than other's
-		# 	return 'good'	
-		# elif abs(response) < 25:
-		# 	return 'neutral'
-		# elif response >= 25: # My CHM is much higher
-		# 	return 'bad'
-
+		Returns other.CHM - self.CHM.
+		'''
+	
+		if not isinstance(other,Creature):
+			input('ERROR IN CREATURE: Trying to determine \
+response, but other is not a Creature.')
+			return 0
+		
+		return other.CHM - self.CHM
+		
 #################################################################
 	
 	def woo(self,other):
@@ -516,7 +491,22 @@ class Creature:
 #################################################################
 
 if __name__ == '__main__':
-	
+
+	from item import Item
+
+	i = Item('weiner')
+	hi_chm = Creature(CHM=80)
+	lo_chm = Creature(CHM=5)
+
+	print(f'hi chm: {hi_chm.CHM}, lo chm: {lo_chm.CHM}\n \
+	   lo chm - hi chm = {lo_chm.CHM - hi_chm.CHM}\n \
+		hi resp = {hi_chm.determine_response(lo_chm)}\n \
+		hi chm - lo chm = {hi_chm.CHM - lo_chm.CHM}\n \
+		lo chm resp = {lo_chm.determine_response(hi_chm)}')
+
+	print(hi_chm.determine_response(i))
+
+	'''	
 	a = Creature(ATK=5)
 	b = Creature(ATK=20)
 	c = Creature(ATK=75)
@@ -558,8 +548,6 @@ if __name__ == '__main__':
 
 
 	#user = input("What is your name, traveller?\n")
-
-	'''
 
 	hero = Creature(
 		25, #level
