@@ -446,35 +446,35 @@ def take_battle_items(hero,spoils):
 
 #################################################################
 
-def determine_response(conversant1,conversant2):
-	'''
-	Accepts a target Creature object as input.
+# def determine_response(conversant1,conversant2):
+# 	'''
+# 	Accepts a target Creature object as input.
 
-	Calculates difference between self and other's
-	CHM stats.
+# 	Calculates difference between self and other's
+# 	CHM stats.
 
-	If self's stat is much higher, other
-	is totally bowled over.
+# 	If self's stat is much higher, other
+# 	is totally bowled over.
 
-	If stats are similar, other's response is neutral.
+# 	If stats are similar, other's response is neutral.
 
-	If self's stat is much lower, other is repulsed.
+# 	If self's stat is much lower, other is repulsed.
 
-	Returns 'good' if case 1, 'neutral' if case 2,
-	or 'bad' if case 3.
-	'''
+# 	Returns 'good' if case 1, 'neutral' if case 2,
+# 	or 'bad' if case 3.
+# 	'''
 
-	response = conversant1.CHM - conversant2.CHM
+# 	response = conversant1.CHM - conversant2.CHM
 
-	# print('\n\n\nwe are in determine_response\n\n\n')
-	# print('1 chm %d - 2 charm %d = %d response'%(conversant1.CHM,conversant2.CHM,response))
+# 	# print('\n\n\nwe are in determine_response\n\n\n')
+# 	# print('1 chm %d - 2 charm %d = %d response'%(conversant1.CHM,conversant2.CHM,response))
 
-	if response <= -25:
-		return 'good'	
-	elif abs(response) < 25:
-		return 'neutral'
-	elif response >= 25:
-		return 'bad'
+# 	if response <= -25:
+# 		return 'good'	
+# 	elif abs(response) < 25:
+# 		return 'neutral'
+# 	elif response >= 25:
+# 		return 'bad'
 	
 #################################################################
 
