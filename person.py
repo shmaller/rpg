@@ -7,12 +7,7 @@ human characters in the game are based.
 '''
 
 from creature import *
-from mechanics import battle, determine_response
-
-names = ['Mattias','Franny','Leopold','Catche','Slan','Reog',
-'Frack','Lance','Samantha','Lili','Martha','Zuzu','Borb','Horatio',
-'Rosecratz','Guildenstern','Chunk','Blork','Effel','Yorick', 'Puck',
-'Osgood','Rank','Lelel','Bilbo','Kattiwampus']
+from mechanics import battle
 
 #################################################################
 #################################################################
@@ -22,13 +17,40 @@ class Person(Creature):
 
 	def __init__(
 		self,
+		LEVEL=1,
+		EXP=0,
+		MAXHP=15,
+		HP=15,
+		ATK=5,
+		DEF=5,
+		SPD=5,
+		LCK=5,
+		SNK=5,
+		CHM=5,
+		INT=5,
 		name='',
+		player=False,
+		inventory=[],
 		faction=None,
 		allegiance=0
 		):
 
-		Creature.__init__(self,
-					name = name)
+		super().__init__(
+				   LEVEL,
+				   EXP,
+				   MAXHP,
+				   HP,
+				   ATK,
+				   DEF,
+				   SPD,
+				   LCK,
+				   SNK,
+				   CHM,
+				   INT,
+				   name,
+				   player,
+				   inventory
+				   )
 		
 		self.faction = faction
 		self.allegiance = allegiance
@@ -36,6 +58,11 @@ class Person(Creature):
 #################################################################
 
 	def generate_stats(self,hero):
+
+		names = ['Mattias','Franny','Leopold','Catche','Slan','Reog',
+'Frack','Lance','Samantha','Lili','Martha','Zuzu','Borb','Horatio',
+'Rosecratz','Guildenstern','Chunk','Blork','Effel','Yorick', 'Puck',
+'Osgood','Rank','Lelel','Bilbo','Kattiwampus']
 
 		self.LEVEL = randint(hero.LEVEL-10,hero.LEVEL+10)
 
@@ -59,6 +86,48 @@ class Person(Creature):
 		self.CHM += (self.INT / 2)
 
 		self.check_attrs()
+
+#################################################################
+
+	def get_factional_opinion(self, other):
+		'''
+		Accepts Person object as input.
+
+		Checks Other's factional association,
+		compares it to self's factional assocation * allegiance.
+
+		Returns float between -100 and 100.
+		'''
+
+		if not isinstance(other,Person):
+			input('ERROR IN PERSON: Trying to get factional \
+opinion, but other is not a Person.')
+			return 0
+
+		if self.faction and other.faction:
+			return (self.faction.opinion(other) * self.allegiance * 100)
+			
+		return 0
+	
+#################################################################
+
+	def determine_response(self, other):
+		'''
+		Accepts Person object as input.
+
+		Calculates CHM difference, and then 
+		factional opinion.
+
+		Alters Creature determine_response behavior:
+		Persons also consider factional alliance in
+		their response to each other.
+		
+		Returns sum as int.
+		'''
+		chm_diff = super().determine_response(other)
+		factional = self.get_factional_opinion(other)
+
+		return chm_diff + factional
 
 #################################################################
 
@@ -91,20 +160,6 @@ class Person(Creature):
 
 #################################################################
 
-	def get_factional_opinion(self, other):
-		'''
-		Accepts Person object as input.
-
-		Checks Other's factional association,
-		compares it to self's factional assocation.
-
-		Returns float between -1 and 1.
-		'''
-
-		return(self.faction.opinion(other))
-
-#################################################################
-
 if __name__ == '__main__':
 
 	from faction import *
@@ -112,16 +167,16 @@ if __name__ == '__main__':
 	Romans = Faction('Romans')
 	Huns = Faction('Huns')
 
-	Romans.opinions = {Huns: -1}
-	Huns.opinions = {Romans: -0.9}
+	Romans.opinions = {Huns: -0.8}
+	Huns.opinions = {Romans: -0.2}
 
-	roman = Person('dookie',Romans,0.3)
-	hun = Person('smirkle',Huns,0.9)
+	roman = Person(name='dookie',faction=Romans,allegiance=0.3,CHM=100)
+	hun = Person(name='smirkle',faction=Huns,allegiance=0.9,CHM=50)
 
-	print(f"Roman's opinion of Hun: {roman.get_factional_opinion(hun)}")
+	print(f"Roman's opinion of Hun: {roman.determine_response(hun)}\n\
+Hun's opinion of roman: {hun.determine_response(roman)}")
 
 	'''
-
 	from mechanics import load_file
 	from item import Item
 
