@@ -19,7 +19,7 @@ class Faction:
     #################################################################
 
     def __init__(self,
-                 name,
+                 name='generic_faction',
                  membership_dict={},
                  opinions_dict={}
                  ):
@@ -30,8 +30,8 @@ class Faction:
         values = Persons with that title (Person))
         - opinions of other factions (dict,
         keys = names of other factions (str),
-        values = opinion of that faction (float 0-1,
-        0 = reviled, 1 = beloved))
+        values = opinion of that faction (float -1 - 1,
+        -1 = reviled, 0 = neutral, 1 = beloved))
         '''
         self.name = name
         self.members = membership_dict
