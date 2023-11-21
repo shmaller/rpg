@@ -1,5 +1,3 @@
-from person import *
-
 class Faction:
     '''
     A Faction is a collection of Persons
@@ -49,6 +47,8 @@ class Faction:
         Returns a float between -1 and 1 rating the opinion
         (-1 = reviled, 0 = neutral, 1 = beloved).
         '''
+        from person import Person
+
         if not isinstance(in_person,Person):
             input('ERROR IN FACTION: in_person is not Person, \
                   cannot determine faction opinion.')
@@ -60,6 +60,7 @@ class Faction:
             for faction in self.opinions:
                 if faction == in_person.faction:
                     return self.opinions[faction]
+            return 0
                 
 #################################################################
 #################################################################
